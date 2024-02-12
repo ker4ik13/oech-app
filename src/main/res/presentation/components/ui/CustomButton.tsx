@@ -5,7 +5,7 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { COLORS } from '../../values';
+import { COLORS } from '../../../values';
 
 interface ButtonProps {
 	title: string;
@@ -13,13 +13,13 @@ interface ButtonProps {
 	size: 'sm' | 'md';
 }
 
-export const StyledButton = {
+export const CustomButton = {
 	Outlined: ({ title, size, onPress }: ButtonProps) => {
 		switch (size) {
 			case 'sm':
 				return (
-					<Pressable onPress={onPress}>
-						<TouchableOpacity>
+					<Pressable>
+						<TouchableOpacity onPress={onPress}>
 							<View style={styles.outlineButtonSmall}>
 								<Text style={styles.outlineTextSmall}>{title}</Text>
 							</View>
@@ -28,8 +28,8 @@ export const StyledButton = {
 				);
 			case 'md':
 				return (
-					<Pressable onPress={onPress}>
-						<TouchableOpacity>
+					<Pressable>
+						<TouchableOpacity onPress={onPress}>
 							<View style={styles.outlineButtonMedium}>
 								<Text style={styles.outlineTextMedium}>{title}</Text>
 							</View>
@@ -42,8 +42,8 @@ export const StyledButton = {
 		switch (size) {
 			case 'sm':
 				return (
-					<Pressable onPress={onPress}>
-						<TouchableOpacity>
+					<Pressable>
+						<TouchableOpacity onPress={onPress}>
 							<View style={styles.solidButtonSmall}>
 								<Text style={styles.solidTextSmall}>{title}</Text>
 							</View>
@@ -52,8 +52,8 @@ export const StyledButton = {
 				);
 			case 'md':
 				return (
-					<Pressable onPress={onPress}>
-						<TouchableOpacity>
+					<Pressable>
+						<TouchableOpacity onPress={onPress}>
 							<View style={styles.solidButtonMedium}>
 								<Text style={styles.solidTextMedium}>{title}</Text>
 							</View>
@@ -66,15 +66,15 @@ export const StyledButton = {
 
 const styles = StyleSheet.create({
 	outlineButtonSmall: {
-		paddingHorizontal: 20,
-		paddingVertical: 10,
+		paddingHorizontal: 36,
+		paddingVertical: 20,
 		borderWidth: 1,
 		borderColor: COLORS.brand.primary.color,
 		borderRadius: 5,
 	},
 	outlineTextSmall: {
 		textAlign: 'center',
-		fontSize: 10,
+		fontSize: 14,
 		color: COLORS.brand.primary.color,
 		fontWeight: '700',
 	},
@@ -92,14 +92,14 @@ const styles = StyleSheet.create({
 		fontWeight: '700',
 	},
 	solidButtonSmall: {
-		paddingHorizontal: 20,
-		paddingVertical: 10,
+		paddingHorizontal: 36,
+		paddingVertical: 20,
 		borderRadius: 5,
 		backgroundColor: COLORS.brand.primary.color,
 	},
 	solidTextSmall: {
 		textAlign: 'center',
-		fontSize: 10,
+		fontSize: 14,
 		color: COLORS.white,
 		fontWeight: '700',
 	},
