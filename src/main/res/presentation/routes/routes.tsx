@@ -19,11 +19,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export const Routes = () => {
 	return (
 		<Stack.Navigator
+			key='stack'
 			screenOptions={{
 				headerShown: false,
-				animation: 'fade_from_bottom',
 			}}
-			initialRouteName='onboarding1'
+			initialRouteName='signup'
 		>
 			<Stack.Screen name='onboarding1' component={Onboarding.First} />
 			<Stack.Screen name='onboarding2' component={Onboarding.Second} />

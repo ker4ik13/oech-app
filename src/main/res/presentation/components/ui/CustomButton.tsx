@@ -11,6 +11,7 @@ interface ButtonProps {
 	title: string;
 	onPress?: (...args: any) => void;
 	size: 'sm' | 'md';
+	disabled?: boolean;
 }
 
 export const CustomButton = {
@@ -38,13 +39,15 @@ export const CustomButton = {
 				);
 		}
 	},
-	Solid: ({ size, title, onPress }: ButtonProps) => {
+	Solid: ({ size, title, onPress, disabled }: ButtonProps) => {
 		switch (size) {
 			case 'sm':
 				return (
 					<Pressable>
-						<TouchableOpacity onPress={onPress}>
-							<View style={styles.solidButtonSmall}>
+						<TouchableOpacity onPress={onPress} disabled={disabled}>
+							<View
+								style={[styles.solidButtonSmall, disabled && styles.disabled]}
+							>
 								<Text style={styles.solidTextSmall}>{title}</Text>
 							</View>
 						</TouchableOpacity>
@@ -53,8 +56,10 @@ export const CustomButton = {
 			case 'md':
 				return (
 					<Pressable>
-						<TouchableOpacity onPress={onPress}>
-							<View style={styles.solidButtonMedium}>
+						<TouchableOpacity onPress={onPress} disabled={disabled}>
+							<View
+								style={[styles.solidButtonMedium, disabled && styles.disabled]}
+							>
 								<Text style={styles.solidTextMedium}>{title}</Text>
 							</View>
 						</TouchableOpacity>
@@ -96,6 +101,9 @@ const styles = StyleSheet.create({
 		paddingVertical: 20,
 		borderRadius: 5,
 		backgroundColor: COLORS.brand.primary.color,
+	},
+	disabled: {
+		backgroundColor: COLORS.gray[200],
 	},
 	solidTextSmall: {
 		textAlign: 'center',
