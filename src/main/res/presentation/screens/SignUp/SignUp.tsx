@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import {
+	ActivityIndicator,
 	Alert,
 	KeyboardAvoidingView,
 	SafeAreaView,
@@ -27,10 +28,6 @@ const SignupSchema = Yup.object().shape({
 	checkBox: Yup.boolean().required().isTrue(),
 });
 
-const inputStyles = (style?: object, isError?: boolean): object | object[] => {
-	return style ? (isError ? [style, styles.inputError] : style) : styles.input;
-};
-
 export const SignUp = ({ navigation }: DefaultScreenProps) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const viewModel = new SignUpViewModel();
@@ -46,6 +43,8 @@ export const SignUp = ({ navigation }: DefaultScreenProps) => {
 			setIsLoading(true);
 			try {
 				await viewModel.signUp(fullName, phoneNumber, emailAddress, password);
+				setIsLoading(true);
+				navigation.navigate('signin');
 			} catch (error) {
 				Alert.alert(String(error));
 				setIsLoading(false);
@@ -61,6 +60,7 @@ export const SignUp = ({ navigation }: DefaultScreenProps) => {
 			<StatusBar />
 			<SafeAreaView style={styles.container}>
 				<KeyboardAvoidingView>
+					{isLoading && <ActivityIndicator />}
 					<Text style={styles.title}>Create an account</Text>
 					<Text style={styles.subtitle}>
 						Complete the sign up process to get started
@@ -166,7 +166,7 @@ export const SignUp = ({ navigation }: DefaultScreenProps) => {
 									<Text style={styles.alreadyText}>
 										Already have an account?
 										<Text
-											onPress={() => navigation.navigate('holder')}
+											onPress={() => navigation.navigate('signin')}
 											style={styles.link}
 										>
 											{' '}

@@ -12,6 +12,7 @@ export type RootStackParamList = {
 	signin: undefined;
 	signup: undefined;
 };
+
 export type DefaultScreenProps = NativeStackScreenProps<RootStackParamList>;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -23,7 +24,7 @@ export const Routes = () => {
 			screenOptions={{
 				headerShown: false,
 			}}
-			initialRouteName='signup'
+			initialRouteName='onboarding1'
 		>
 			<Stack.Screen name='onboarding1' component={Onboarding.First} />
 			<Stack.Screen name='onboarding2' component={Onboarding.Second} />

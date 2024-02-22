@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient, Session } from '@supabase/supabase-js';
-import { sha512 } from 'js-sha512';
+import { sha512, sha512_256 } from 'js-sha512';
 import { UnexpectedError } from '../../domain/errors';
 import { RemoteRepository } from '../../domain/repository';
 
 export class RemoteRepositoryImpl implements RemoteRepository {
-	private supabaseUrl = 'https://siwvlgedeictsxrumntu.supabase.co';
+	private supabaseUrl = 'https://ylodljpopwfhwrsjldik.supabase.co';
 	private supabaseAnonKey =
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpd3ZsZ2VkZWljdHN4cnVtbnR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDg1NDIyOTYsImV4cCI6MjAyNDExODI5Nn0.dTXtBSJIqZgXBU1UkICxKxIoC7eXQGQ7C4BwEXZrPwY';
+		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlsb2RsanBvcHdmaHdyc2psZGlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODg0NjQzOTYsImV4cCI6MjAwNDA0MDM5Nn0.KPMRPgUXoemVRoWcuXtiZU-BRYRUAIdurCLJ2ntTmKE';
 	supabase = createClient(this.supabaseUrl, this.supabaseAnonKey, {
 		auth: {
 			storage: AsyncStorage,
@@ -20,24 +20,23 @@ export class RemoteRepositoryImpl implements RemoteRepository {
 	async signUp(
 		fullName: string,
 		phoneNumber: string,
-		emailAddress: string,
+		email: string,
 		password: string,
 	): Promise<void> {
 		const {
 			data: { session },
 			error: AuthError,
 		} = await this.supabase.auth.signUp({
-			email: emailAddress,
-			password: sha512(password),
+			email,
+			password,
 		});
 
-		console.log(AuthError, session);
 
 		const { error: PostgresError } = await this.supabase.from('users').insert({
 			full_name: fullName,
 			phone_number: phoneNumber,
-			email_address: emailAddress,
-			password: sha512(password),
+			email_address: email,
+			password,
 		});
 
 		if (PostgresError || AuthError) {
@@ -45,15 +44,15 @@ export class RemoteRepositoryImpl implements RemoteRepository {
 		}
 	}
 	async signIn(
-		emailAddress: string,
+		email: string,
 		password: string,
 	): Promise<Session | null> {
 		const {
 			data: { session },
 			error,
 		} = await this.supabase.auth.signInWithPassword({
-			email: emailAddress,
-			password: sha512(password),
+			email,
+			password,
 		});
 
 		if (error) {
